@@ -1,4 +1,4 @@
-create database Tugas_Relational_Database_Part2;
+create database Relational_Database_Part2;
 
 use Tugas_Relational_Database_Part2;
 -- users
@@ -22,16 +22,17 @@ updated_at datetime default current_timestamp
 create table operators (
 id int primary key auto_increment,
 operator_name varchar(50),
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp
+created_at datetime,
+updated_at datetime 
 );
+
 -- products
 create table products(
-products_id int primary key auto_increment,
+id int primary key auto_increment,
 name varchar(50),
 price decimal not null,
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp,
+created_at datetime,
+updated_at datetime,
 product_type_id int,
 operators_id int,
 CONSTRAINT FK_ProductsProducts_type FOREIGN KEY (product_type_id)
@@ -41,47 +42,47 @@ REFERENCES operators(id)
 );
 -- products_descriptions
 create table products_descriptions(
-id int primary key auto_increment,
+products_id int primary key auto_increment,
 desccription text,
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp,
-CONSTRAINT FK_DescriptionsProducts FOREIGN KEY (id)
-REFERENCES products(products_id)
+created_at datetime,
+updated_at datetime,
+CONSTRAINT FK_DescriptionsProducts FOREIGN KEY (products_id)
+REFERENCES products(id)
 );
 -- payments_methods
 create table payment_methods (
 id int auto_increment primary key,
-name varchar(50) not null,
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp
+name varchar(50),
+created_at datetime,
+updated_at datetime
 );
 -- Payment_method_descriptions 
 create table payment_method_descriptions(
 payment_method_id int primary key auto_increment,
 description varchar(255),
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp,
+created_at datetime,
+updated_at datetime,
 constraint FK_DescriptionsPayment foreign key (payment_method_id)
 references payment_methods(id)
 );
 -- address
 create table address (
-id varchar(50) primary key,
+id int primary key auto_increment,
 address varchar(100),
-users_id int auto_increment,
+users_id int,
 constraint FK_AddressUser foreign key (users_id)
 references users(id)
 );
 -- transaction 
 create table transactions (
 id int primary key auto_increment,
-total_qty int not null,
-total_transaction decimal not null,
+total_qty int,
+total_transaction decimal,
 transaction_date datetime,
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp,
-users_id int not null,
-payment_method_id int not null,
+created_at datetime,
+updated_at datetime,
+users_id int,
+payment_method_id int,
 constraint FK_TransactionUser foreign key (users_id)
 references users(id),
 constraint FK_TransactionPayment_method foreign key (payment_method_id)
@@ -91,9 +92,9 @@ references payment_methods(id)
 -- user payment method detai
 create table user_payment_method_detail (
 id int primary key auto_increment,
-detail varchar (255) not null,
-users_id int not null,
-payment_method_id int not null,
+detail varchar (255),
+users_id int,
+payment_method_id int,
 constraint FK_DetailpaymentUser foreign key (users_id)
 references users(id),
 constraint FK_DetailPayment_method foreign key (payment_method_id)
@@ -105,14 +106,14 @@ create table transaction_details (
 id int primary key auto_increment,
 price decimal,
 qty int,
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp,
+created_at datetime,
+updated_at datetime,
 transaction_id int,
 products_id int,
 constraint FK_TransactionsDetail foreign key (transaction_id)
 references transactions(id),
 constraint FK_TransactionsDetailUsers foreign key (products_id)
-references products(products_id)
+references products(id)
 );
 
 
